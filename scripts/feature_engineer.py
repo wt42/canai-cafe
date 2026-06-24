@@ -3,7 +3,8 @@ from datetime import datetime
 import holidays
 import pandas as pd
 
-FILE_PATH = "./data/CanAI Cafe 2023 Sales Information.xlsx"
+FILE_PATH = "./data/clean_output.csv"
+OUTPUT_FILE = "./data/output.csv"
 
 
 # Set Season
@@ -20,12 +21,12 @@ def get_season(month):
 
 
 def main():
-    df = pd.read_excel(FILE_PATH)
+    df = pd.read_csv(FILE_PATH)
     df = df.dropna(how="any")  # temporary clean just for ease
 
     # Convert to datetime
     df["date"] = pd.to_datetime(
-        df["Transaction Date"], format="%m/%d/%Y", errors="coerce"
+        df["transaction_date"], format="%Y-%m-%d", errors="coerce"
     )
 
     # Extract components
@@ -57,8 +58,10 @@ def main():
 
     df["is_holiday"] = df["date"].dt.date.isin(ca_holidays)
 
-    # print(df)
+    print(df)
     print(df[df["is_holiday"] == True])
+
+    df.to_csv(OUTPUT_FILE, index=False)
 
 
 if __name__ == "__main__":
