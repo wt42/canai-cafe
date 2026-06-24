@@ -1,7 +1,7 @@
 from pathlib import Path
-import pandas as pd
-import numpy as np
 
+import numpy as np
+import pandas as pd
 
 ROOT_DIR = Path(__file__).resolve().parent.parent
 DATA_DIR = ROOT_DIR / "data"
@@ -11,23 +11,21 @@ OUTPUT_FILE = DATA_DIR / "clean_output.csv"
 
 
 def clean_province(provinces):
-    provinces = provinces.astype(str).str.strip().str.lower()
+    provinces = provinces.astype("string").str.strip().str.lower()
 
     province_map = {
         "bc": "British Columbia",
         "b.c.": "British Columbia",
-        "british columbia": "British Columbia",
-        "britishcolumbia": "British Columbia", 
+        "britishcolumbia": "British Columbia",
         "british columba": "British Columbia",
         "british columbi": "British Columbia",
 
         "mb": "Manitoba",
+        "manitob": "Manitoba",
         "manitba": "Manitoba",
-        "manitoba": "Manitoba",
         "manitobaa": "Manitoba",
 
         "nfld": "Newfoundland",
-        "newfoundland": "Newfoundland",
         "nl": "Newfoundland",
         "newfoundlan": "Newfoundland",
         "new foundland": "Newfoundland",
@@ -36,55 +34,42 @@ def clean_province(provinces):
         "sk": "Saskatchewan",
         "sask.": "Saskatchewan",
         "saskatchewa": "Saskatchewan",
-        "saskatchewan": "Saskatchewan",
         "sasktchewan": "Saskatchewan",
-        "saskatchewn": "Saskatchewan", 
+        "saskatchewn": "Saskatchewan",
 
         "on": "Ontario",
         "ont.": "Ontario",
         "ontairo": "Ontario",
         "ontaroi": "Ontario",
-        "ontario": "Ontario"
     }
 
     provinces = provinces.replace(province_map)
-    provinces = provinces.replace([""," "], np.nan)
+    provinces = provinces.replace([""], np.nan)
+    provinces = provinces.str.title()
 
     return provinces
 
 
 def standardize_items(items):
-    items = items.astype(str).str.strip().str.lower()
+    items = items.astype("string").str.strip().str.lower()
 
     item_map = {
-    
-    "C0ffee": "Coffee",
-    "Cofee": "Coffee",
-    "cofee": "Coffee",
-    "coffe": "Coffee",
-    "coffee": "Coffee",
-
-    "Donutt": "Donut",
-    "Doughnut": "Donut",
-    "donut": "Donut",
-
-    "Juic": "Juice",
-    "Juicee": "Juice",
-    "juice": "Juice",
-
-    "Sandwhich": "Sandwich",
-    "sandwich": "Sandwich",
-
-    "TEA": "Tea",
-    "Tee": "Tea",
-    "tee": "Tea",
+        "c0ffee": "Coffee",
+        "cofee": "Coffee",
+        "coffe": "Coffee",
+        "donutt": "Donut",
+        "doughnut": "Donut",
+        "juic": "Juice",
+        "juicee": "Juice",
+        "sandwhich": "Sandwich",
+        "tee": "Tea",
     }
 
     items = items.replace(item_map)
-    items = items.replace([""," "], np.nan)
+    items = items.replace([""], np.nan)
+    items = items.str.title()
 
     return items
-    
 
 
 def main():
@@ -107,7 +92,12 @@ def main():
     df["item"] = standardize_items(df["item"])
 
     # Clean payment methods
-    df["payment_method"] = df["payment_method"].replace(["ERR_PM_102"], np.nan)
+    df["payment_method"] = df["payment_method"].astype("string").str.strip()
+    df["payment_method"] = df["payment_method"].replace(["", "ERR_PM_102"], np.nan)
+
+    # Clean locations
+    df["location"] = df["location"].astype("string").str.strip()
+    df["location"] = df["location"].replace([""], np.nan)
 
     # Handle unknown dates
     df["transaction_date"] = df["transaction_date"].replace(["UNKNOWN"], np.nan)
@@ -136,7 +126,7 @@ def main():
     df.loc[mask, "quantity"] = (
         df.loc[mask, "total_spent"] / df.loc[mask, "price_per_unit"]
     )
-    
+
     # Fill missing price per unit
     mask = df["price_per_unit"].isna() & df["total_spent"].isna() & df["quantity"].notna()
 

@@ -1,5 +1,5 @@
 import pandas as pd
-
+from dataset_cleaner import clean_province, standardize_items
 
 FILE_PATH = "./data/CanAI Cafe 2023 Sales Information.xlsx"
 
@@ -22,45 +22,46 @@ def normalize_text(value):
     return value
 
 
+def print_value_counts(title, values):
+    print_section(title)
+    print(values.value_counts(dropna=False).sort_index())
+
+
 def main():
     df = pd.read_excel(FILE_PATH)
 
-    print_section("Raw Unique Item Names")
-    item_values = (
-        df["Item"]
-        .map(normalize_text)
-        .value_counts(dropna=False)
-        .sort_index()
+    # Item Column Values
+    print_value_counts(
+        "Raw Unique Item Names",
+        df["Item"].map(normalize_text),
     )
-    print(item_values)
+    print_value_counts(
+        "Standardized Unique Item Names",
+        standardize_items(df["Item"]),
+    )
 
-    print_section("Raw Unique Province Names")
-    province_values = (
-        df["Province"]
-        .map(normalize_text)
-        .value_counts(dropna=False)
-        .sort_index()
+    # Province Column Values
+    print_value_counts(
+        "Raw Unique Province Names",
+        df["Province"].map(normalize_text),
     )
-    print(province_values)
+    print_value_counts(
+        "Standardized Unique Province Names",
+        clean_province(df["Province"]),
+    )
 
-    print_section("Raw Unique Payment Methods")
-    payment_values = (
-        df["Payment Method"]
-        .map(normalize_text)
-        .value_counts(dropna=False)
-        .sort_index()
+    # Payment Method Column Values
+    print_value_counts(
+        "Raw Unique Payment Methods",
+        df["Payment Method"].map(normalize_text),
     )
-    print(payment_values)
 
-    print_section("Raw Unique Locations")
-    location_values = (
-        df["Location"]
-        .map(normalize_text)
-        .value_counts(dropna=False)
-        .sort_index()
+    # Location Column Values
+    print_value_counts(
+        "Raw Unique Locations",
+        df["Location"].map(normalize_text),
     )
-    print(location_values)
+
 
 if __name__ == "__main__":
     main()
-
