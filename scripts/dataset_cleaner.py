@@ -101,7 +101,7 @@ def main():
 
     # Handle unknown dates
     df["transaction_date"] = df["transaction_date"].replace(["UNKNOWN"], np.nan)
-    df["transaction_date"] = pd.to_datetime(df["transaction_date"], errors="coerce")
+    df["transaction_date"] = pd.to_datetime(df["transaction_date"], format="%Y-%m-%d", errors="coerce")
 
     # Remove invalid numeric values
     df["quantity"] = pd.to_numeric(df["quantity"], errors="coerce")
