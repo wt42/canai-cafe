@@ -135,15 +135,19 @@ def main():
     )
 
     # Validate total_spent accuracy
-    df["expected_total"] = df["quantity"] * df["price_per_unit"]
-    df["revenue_diff"] = abs(df["expected_total"] - df["total_spent"])
-
+    # df["expected_total"] = df["quantity"] * df["price_per_unit"]
+    # df["revenue_diff"] = abs(df["expected_total"] - df["total_spent"])
     # df["revenue_incorrect"] = df["revenue_diff"] > 0.1
     # print("incorrect revenue rows:", df["revenue_incorrect"].sum())
 
-    # check price consistency per item 
+    # Check price consistency per item 
     price_check = df.groupby("item")["price_per_unit"].nunique()
     # print(price_check)
+
+    # High quantity detection (outlier)
+    # q99 = df["quantity"].quantile(0.99)
+    # df["high_quantity flag"] = df["quantity"] > q99
+    # print("High quality threshold (99th percentile): ", q99)
 
     df.to_csv(OUTPUT_FILE, index=False)
 
