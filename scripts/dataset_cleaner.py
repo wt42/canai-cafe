@@ -121,18 +121,25 @@ def main():
     )
 
     # Fill missing quantity
-    mask = df["quantity"].isna() & df["total_spent"].isna() & df["price_per_unit"].notna()
+    mask = df["quantity"].isna() & df["total_spent"].notna() & df["price_per_unit"].notna()
 
     df.loc[mask, "quantity"] = (
         df.loc[mask, "total_spent"] / df.loc[mask, "price_per_unit"]
     )
 
     # Fill missing price per unit
-    mask = df["price_per_unit"].isna() & df["total_spent"].isna() & df["quantity"].notna()
+    mask = df["price_per_unit"].isna() & df["total_spent"].notna() & df["quantity"].notna()
 
     df.loc[mask, "price_per_unit"] = (
         df.loc[mask, "total_spent"] / df.loc[mask, "quantity"]
     )
+
+    # Validate total_spent accuracy
+    df["expected_total"] = df["quantity"] * df["price_per_unit"]
+    df["revenue_diff"] = abs(df["expected_total"] - df["total_spent"])
+
+    # df["revenue_incorrect"] = df["revenue_diff"] > 0.1
+    # print("incorrect revenue rows:", df["revenue_incorrect"].sum())
 
     # check price consistency per item 
     price_check = df.groupby("item")["price_per_unit"].nunique()
