@@ -26,8 +26,11 @@
     {
       "title": "Forecast Method",
       "points": [
-        "A weekday-adjusted baseline forecast was selected because only one year of history was available and the weekday/weekend pattern was strong.",
-        "Validation used Jan-Oct as training and Nov-Dec as holdout months."
+        "An offline daily revenue forecast is generated from the cleaned transaction data and saved as static JSON for React.",
+        "Candidate baselines are compared across rolling 30-day holdout windows, then the best explainable weekday/recent-level model is selected.",
+        "The dashboard shows daily validation error in the daily view and 30-day aggregate validation error in the monthly view.",
+        "Annual seasonality is not strongly inferred because only one complete year of data is available.",
+        "Province forecast charts exclude Unknown Province and do not reallocate that revenue to known provinces."
       ]
     },
     {

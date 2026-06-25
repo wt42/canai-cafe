@@ -104,6 +104,7 @@ python scripts/dataset_profiler.py
 | `data/processed/cleaning_summary.csv` | Cleaning metrics and audit summary |
 | `data/processed/profile_report.txt` | Raw and cleaned data profile report |
 | `data/processed/rejected_rows.csv` | Rows rejected after numeric validation, if any |
+| `canai-cafe-frontend-project/frontend/public/data/forecast_sales.json` | Static 180-day forecast payload for the React dashboard |
 
 ---
 
@@ -240,6 +241,113 @@ duplicate_transaction_id_flag
 ```
 
 Reason: duplicate IDs may not be exact duplicate rows. Deleting them blindly can cause revenue loss.
+
+---
+
+## Forecasting Methodology
+
+The sales forecast is built ahead of time in Python and saved as static JSON:
+
+```text
+canai-cafe-frontend-project/frontend/public/data/forecast_sales.json
+```
+
+### What The Forecast Predicts
+
+The model predicts expected cafe revenue for the next 180 calendar days after
+the final transaction date in the cleaned dataset:
+
+```text
+2024-01-01 through 2024-06-28
+```
+
+The forecast is created one day at a time. The dashboard then groups those
+daily forecasts into monthly totals for the 6-month view.
+
+### How The Model Learns From The Data
+
+The cleaned dataset has one year of dated sales history. That is enough to
+learn simple daily patterns, but not enough to confidently learn annual
+seasonality. Because of that, the model focuses on patterns that are easier to
+defend:
+
+- how much revenue the cafe has made recently
+- whether a forecast date is a weekday or weekend
+- whether daily sales have been drifting slightly up or down
+
+The pipeline compares a few simple forecasting options:
+
+- Use the recent average daily revenue.
+- Use recent averages for each weekday.
+- Use a small day-of-week regression model.
+- Blend the regression model with recent weekday averages.
+
+The selected model is the one that performs best during back-testing. The
+current selected model is:
+
+```text
+Day-of-week regression blended with recent level
+```
+
+This means the forecast uses a stable weekday pattern from the full year, then
+blends it with more recent sales behavior so the forecast is not stuck in the
+past.
+
+### How The Model Is Checked
+
+The pipeline does not just create future numbers and hope they look right. It
+tests the model against known historical data.
+
+It does this by hiding three recent 30-day periods from the model, predicting
+those periods, and comparing the predictions with what actually happened. This
+is called back-testing.
+
+The dashboard shows the result in plain business terms:
+
+- In the 30-day daily view, `Typical Daily Error` shows the average daily miss
+  during back-testing.
+- In the 6-month monthly view, `Typical Monthly Error` shows the average
+  30-day total-revenue miss during back-testing.
+
+The monthly error is not calculated by multiplying daily error by 30. Instead,
+it compares each hidden 30-day period's total predicted revenue against its
+actual total revenue. This is more realistic because daily over-predictions and
+under-predictions can cancel out across a month.
+
+### How The Breakdowns Work
+
+The model first forecasts total revenue. Then it creates supporting breakdowns
+for the dashboard.
+
+Item breakdowns:
+
+- Forecast item revenue is allocated from the total revenue forecast using
+  historical item sales mix.
+- Item revenue adds back up to the selected forecast total.
+- Expected item units are estimated from forecast item revenue and each item's
+  median cleaned price.
+- Units are rounded to whole numbers because they are planning estimates.
+
+Province breakdowns:
+
+- `Unknown Province` is excluded from the visible province chart.
+- That unknown revenue is not redistributed to known provinces.
+- Because of this, the visible province bars intentionally do not add up to the
+  total forecast revenue.
+
+### Important Limits
+
+- Rows with missing transaction dates are excluded from time-based model
+  training.
+- The dataset has one year of history, so the model avoids strong annual
+  seasonality claims.
+- The dataset does not include promotions, weather, foot traffic, store hours,
+  inventory, customer IDs, or profit margins.
+- Lower and upper forecast estimates are planning ranges based on historical
+  back-test error, not guaranteed confidence intervals.
+
+The forecast should be read as a planning baseline: useful for understanding
+expected direction, scale, and mix, but not a guarantee of future sales.
 
 ---
 
