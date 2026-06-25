@@ -1,0 +1,143 @@
+{
+  "score": 78.63,
+  "summaryCards": [
+    {
+      "label": "Original Rows",
+      "value": 10000,
+      "note": "Raw transactions received"
+    },
+    {
+      "label": "Cleaned Rows",
+      "value": 10000,
+      "note": "Rows retained after safe cleaning"
+    },
+    {
+      "label": "Rejected Rows",
+      "value": 0,
+      "note": "No recoverable row was dropped"
+    },
+    {
+      "label": "Quantity Repaired",
+      "value": 98,
+      "note": "Calculated from Total Spent / Price Per Unit"
+    },
+    {
+      "label": "Item Inferred",
+      "value": 100,
+      "note": "Recovered from Price Per Unit"
+    },
+    {
+      "label": "Unknown Payments",
+      "value": 555,
+      "note": "Invalid or blank payment method"
+    },
+    {
+      "label": "Unknown Locations",
+      "value": 878,
+      "note": "Blank location preserved as Unknown"
+    },
+    {
+      "label": "Unknown Provinces",
+      "value": 417,
+      "note": "Blank province preserved as Unknown"
+    },
+    {
+      "label": "Duplicate ID Rows",
+      "value": 88,
+      "note": "Flagged, not blindly deleted"
+    },
+    {
+      "label": "Missing Dates",
+      "value": 240,
+      "note": "Excluded from time-series forecast"
+    }
+  ],
+  "issueBreakdown": [
+    {
+      "name": "Unknown Location",
+      "count": 878
+    },
+    {
+      "name": "Unknown Payment",
+      "count": 555
+    },
+    {
+      "name": "Unknown Province",
+      "count": 417
+    },
+    {
+      "name": "Missing Date",
+      "count": 240
+    },
+    {
+      "name": "Item Inferred",
+      "count": 100
+    },
+    {
+      "name": "Quantity Repaired",
+      "count": 98
+    },
+    {
+      "name": "Duplicate ID Rows",
+      "count": 88
+    }
+  ],
+  "categoryCleanup": [
+    {
+      "category": "Item Names",
+      "before": 24,
+      "after": 8,
+      "decision": "Standardized spelling and case issues into 8 clean cafe products."
+    },
+    {
+      "category": "Province Names",
+      "before": 37,
+      "after": 6,
+      "decision": "Mapped abbreviations and misspellings to clean Canadian province names."
+    },
+    {
+      "category": "Payment Method",
+      "before": 4,
+      "after": 4,
+      "decision": "Kept valid methods and marked blanks/error codes as Unknown Payment."
+    },
+    {
+      "category": "Location",
+      "before": 2,
+      "after": 3,
+      "decision": "Kept In-store and Takeaway; blank values became Unknown Location."
+    }
+  ],
+  "cleaningDecisions": [
+    {
+      "issue": "Missing Quantity",
+      "decision": "Recovered mathematically",
+      "reason": "Total Spent and Price Per Unit were present, so Quantity = Total Spent / Price Per Unit."
+    },
+    {
+      "issue": "Missing Item",
+      "decision": "Inferred using item price",
+      "reason": "Each product has a unique Price Per Unit in this dataset."
+    },
+    {
+      "issue": "Invalid Payment Code",
+      "decision": "Labeled as Unknown Payment",
+      "reason": "Replacing with the most common payment method would create fake insight."
+    },
+    {
+      "issue": "Blank Province / Location",
+      "decision": "Labeled as Unknown",
+      "reason": "The missing values are meaningful quality issues and should stay visible."
+    },
+    {
+      "issue": "Duplicate Transaction IDs",
+      "decision": "Flagged but retained",
+      "reason": "They were duplicate IDs, not exact duplicate rows, so deleting them could remove real revenue."
+    },
+    {
+      "issue": "Missing Dates",
+      "decision": "Kept in totals, excluded from trends",
+      "reason": "Assigning fake dates would distort forecasting."
+    }
+  ]
+}

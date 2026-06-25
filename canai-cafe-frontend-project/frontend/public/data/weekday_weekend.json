@@ -1,0 +1,14 @@
+[
+  {
+    "name": "Weekday",
+    "totalRevenue": 74457.0,
+    "days": 260,
+    "avgDailyRevenue": 286.37
+  },
+  {
+    "name": "Weekend",
+    "totalRevenue": 9870.0,
+    "days": 105,
+    "avgDailyRevenue": 94.0
+  }
+]

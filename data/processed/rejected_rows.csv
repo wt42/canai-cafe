@@ -1,0 +1,1 @@
+source_row_number,transaction_id,item,quantity,price_per_unit,total_spent,payment_method,location,transaction_date,province,quantity_repaired_flag,price_per_unit_repaired_flag,total_spent_repaired_flag,item_imputed_flag,missing_date_flag,transaction_month,weekday_name,day_type
