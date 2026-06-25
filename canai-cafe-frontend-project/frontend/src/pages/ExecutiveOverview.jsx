@@ -16,7 +16,7 @@ export default function ExecutiveOverview() {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    getManyJson(['kpi_summary.json', 'monthly_sales.json', 'product_performance.json', 'province_performance.json', 'forecast_6_months.json'])
+    getManyJson(['kpi_summary.json', 'monthly_sales.json', 'product_performance.json', 'province_performance.json', 'forecast_sales.json'])
       .then(setData)
       .catch(setError);
   }, []);
@@ -27,7 +27,7 @@ export default function ExecutiveOverview() {
   const kpi = data['kpi_summary.json'];
   const products = data['product_performance.json'].slice(0, 5);
   const provinces = data['province_performance.json'].slice(0, 5);
-  const forecast = data['forecast_6_months.json'];
+  const forecast = data['forecast_sales.json'];
 
   return (
     <>
@@ -44,13 +44,17 @@ export default function ExecutiveOverview() {
         <KpiCard label="Average Ticket" value={formatCurrency(kpi.averageTransactionValue)} note="Revenue per transaction" />
         <KpiCard label="Top Product" value={kpi.topProduct} note="Highest revenue product" />
         <KpiCard label="Top Province" value={kpi.topProvince} note="Highest revenue province" />
-        <KpiCard label="6-Month Forecast" value={formatCurrency(kpi.sixMonthForecast)} note="Jan-Jun 2024 baseline" />
+        <KpiCard label="6-Month Forecast" value={formatCurrency(forecast.summaryMetrics.full180Days.expectedRevenue)} note="Jan 1-Jun 28, 2024" />
         <KpiCard label="Data Quality Score" value={formatPercent(kpi.dataQualityScore)} note="Rows without quality flags" />
       </section>
 
       <div className="grid two-columns">
         <MonthlySalesChart data={data['monthly_sales.json']} />
-        <ForecastChart data={forecast.monthlyForecast} />
+        <ForecastChart
+          data={forecast.monthlyForecast}
+          title="6-Month Forecast"
+          subtitle="Monthly aggregation of the offline daily revenue forecast"
+        />
       </div>
 
       <div className="grid two-columns">
