@@ -266,6 +266,28 @@ def generate_data_quality_summary(df):
             {"label": "Unknown Provinces", "value": unknown_provinces, "note": "Preserved transparently"},
             {"label": "Duplicate IDs Flagged", "value": duplicates, "note": "Flagged but not dropped"},
             {"label": "Missing Dates", "value": missing_dates, "note": "Excluded from time-series only"}
+        ],
+        "issueBreakdown": [
+            {"name": "Missing Dates", "count": missing_dates},
+            {"name": "Unknown Payments", "count": unknown_payments},
+            {"name": "Unknown Locations", "count": unknown_locations},
+            {"name": "Unknown Provinces", "count": unknown_provinces},
+            {"name": "Quantity Repaired", "count": quantity_repaired},
+            {"name": "Item Inferred", "count": item_imputed},
+            {"name": "Duplicate IDs", "count": duplicates}
+        ],
+        "categoryCleanup": [
+            {"category": "Product Names", "before": "21 variants with typos", "after": "8 standardized items", "decision": "Fuzzy matched and normalized spelling"},
+            {"category": "Provinces", "before": "38 variants with typos", "after": "5 standardized provinces", "decision": "Mapped all known abbreviations and misspellings"},
+            {"category": "Payment Methods", "before": "Mixed casing and blanks", "after": "3 methods + Unknown", "decision": "Standardized casing, blanks marked Unknown"},
+            {"category": "Locations", "before": "Mixed casing and blanks", "after": "2 locations + Unknown", "decision": "Standardized casing, blanks marked Unknown"}
+        ],
+        "cleaningDecisions": [
+            {"issue": "Missing transaction dates", "decision": "Keep rows, exclude from time-series", "reason": "Revenue is still valid for total KPIs even without a date"},
+            {"issue": "Missing quantity", "decision": "Recover mathematically (Total Spent / Price Per Unit)", "reason": "Avoids data loss when the calculation is deterministic"},
+            {"issue": "Missing item name", "decision": "Infer from Price Per Unit lookup", "reason": "Each product has a unique price, so inference is reliable"},
+            {"issue": "Duplicate transaction IDs", "decision": "Flag but do not remove", "reason": "Cannot confirm if duplicates are errors or legitimate repeat purchases"},
+            {"issue": "Unknown payment/location/province", "decision": "Preserve transparently with Unknown label", "reason": "Dropping rows would lose revenue data; labeling keeps analysis honest"}
         ]
     }
 
