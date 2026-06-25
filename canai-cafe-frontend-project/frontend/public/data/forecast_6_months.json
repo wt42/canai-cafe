@@ -1,0 +1,66 @@
+{
+  "modelName": "Seasonal baseline forecast",
+  "forecastPeriod": "January 2024 to June 2024",
+  "totalForecastRevenue": 42931.0,
+  "validation": {
+    "mae": 259.2,
+    "rmse": 262.38,
+    "holdoutMonth1ErrorPercent": 4.43,
+    "holdoutMonth2ErrorPercent": 3.19
+  },
+  "assumptions": [
+    "Only one year of transaction history is available.",
+    "Rows with missing dates are included in total business KPIs but excluded from time-series model training.",
+    "The seasonal pattern from 2023 (Jan-Oct) is assumed to repeat in 2024.",
+    "The model captures monthly seasonality but does not use promotions, store hours, weather, or customer footfall."
+  ],
+  "limitations": [
+    "The forecast is a planning baseline, not a guaranteed result.",
+    "No store ID, customer ID, time of day, campaign, inventory, or profit margin data is available.",
+    "Only one historical year limits seasonality learning."
+  ],
+  "monthlyForecast": [
+    {
+      "month": "2024-01",
+      "forecastRevenue": 7167.0,
+      "lowerEstimate": 6091.95,
+      "upperEstimate": 8242.05,
+      "planningNote": "Based on 2024-01 2023 seasonal pattern (index: 1.01)."
+    },
+    {
+      "month": "2024-02",
+      "forecastRevenue": 6579.0,
+      "lowerEstimate": 5592.15,
+      "upperEstimate": 7565.85,
+      "planningNote": "Based on 2024-02 2023 seasonal pattern (index: 0.93)."
+    },
+    {
+      "month": "2024-03",
+      "forecastRevenue": 7131.5,
+      "lowerEstimate": 6061.78,
+      "upperEstimate": 8201.22,
+      "planningNote": "Based on 2024-03 2023 seasonal pattern (index: 1.01)."
+    },
+    {
+      "month": "2024-04",
+      "forecastRevenue": 6885.5,
+      "lowerEstimate": 5852.68,
+      "upperEstimate": 7918.32,
+      "planningNote": "Based on 2024-04 2023 seasonal pattern (index: 0.97)."
+    },
+    {
+      "month": "2024-05",
+      "forecastRevenue": 7578.0,
+      "lowerEstimate": 6441.3,
+      "upperEstimate": 8714.7,
+      "planningNote": "Based on 2024-05 2023 seasonal pattern (index: 1.07)."
+    },
+    {
+      "month": "2024-06",
+      "forecastRevenue": 7590.0,
+      "lowerEstimate": 6451.5,
+      "upperEstimate": 8728.5,
+      "planningNote": "Based on 2024-06 2023 seasonal pattern (index: 1.07)."
+    }
+  ]
+}
