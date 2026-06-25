@@ -3,7 +3,7 @@ import { defineConfig } from "vite";
 
 export default defineConfig({
   // plugins: [react()],
-  base: "/",
+  base: "/canai-cafe/",
   server: {
     port: 5173,
     open: true,
