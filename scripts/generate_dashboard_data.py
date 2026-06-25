@@ -180,7 +180,7 @@ def generate_weekday_detail(df):
 
 
 def generate_forecast(df):
-    """6-month revenue forecast based on historical monthly averages."""
+    """6-month revenue forecast using seasonal pattern from 2023 data."""
     dated_df = df[df["transaction_date"].notna()].copy()
     monthly_rev = dated_df.groupby(dated_df["transaction_date"].dt.to_period("M"))["total_spent"].sum()
 
@@ -188,34 +188,47 @@ def generate_forecast(df):
     train = monthly_rev.iloc[:-2]
     holdout = monthly_rev.iloc[-2:]
 
-    # Baseline average
+    # Calculate seasonal index: how much each month deviates from the average
     avg_monthly = train.mean()
+    seasonal_index = {}
+    for period, rev in train.items():
+        month_num = period.month
+        seasonal_index[month_num] = rev / avg_monthly
 
-    # Validation metrics
-    errors = holdout - avg_monthly
+    # Validation metrics using seasonal model
+    errors = []
+    for period, actual in holdout.items():
+        predicted = avg_monthly * seasonal_index.get(period.month, 1.0)
+        errors.append(actual - predicted)
+    errors = pd.Series(errors)
     mae = round(abs(errors).mean(), 2)
     rmse = round(np.sqrt((errors ** 2).mean()), 2)
 
     holdout_list = holdout.tolist()
     error_pcts = [round(abs(e) / actual * 100, 2) for e, actual in zip(errors, holdout_list)]
 
-    # Generate 6-month forecast
+    # Generate 6-month forecast using seasonal pattern
     monthly_forecast = []
-    months = ["2024-01", "2024-02", "2024-03", "2024-04", "2024-05", "2024-06"]
-    for m in months:
-        forecast_rev = round(avg_monthly, 2)
+    forecast_months = [
+        ("2024-01", 1), ("2024-02", 2), ("2024-03", 3),
+        ("2024-04", 4), ("2024-05", 5), ("2024-06", 6)
+    ]
+    for month_str, month_num in forecast_months:
+        # Use the seasonal index to vary each month's forecast
+        season_factor = seasonal_index.get(month_num, 1.0)
+        forecast_rev = round(avg_monthly * season_factor, 2)
         monthly_forecast.append({
-            "month": m,
+            "month": month_str,
             "forecastRevenue": forecast_rev,
-            "lowerEstimate": round(forecast_rev * 0.9, 2),
-            "upperEstimate": round(forecast_rev * 1.1, 2),
-            "planningNote": "Stable baseline month with weekday adjustment."
+            "lowerEstimate": round(forecast_rev * 0.85, 2),
+            "upperEstimate": round(forecast_rev * 1.15, 2),
+            "planningNote": f"Based on {month_str[:7]} 2023 seasonal pattern (index: {season_factor:.2f})."
         })
 
     total_forecast = round(sum(f["forecastRevenue"] for f in monthly_forecast), 2)
 
     return {
-        "modelName": "Weekday-adjusted baseline forecast",
+        "modelName": "Seasonal baseline forecast",
         "forecastPeriod": "January 2024 to June 2024",
         "totalForecastRevenue": total_forecast,
         "validation": {
@@ -227,8 +240,8 @@ def generate_forecast(df):
         "assumptions": [
             "Only one year of transaction history is available.",
             "Rows with missing dates are included in total business KPIs but excluded from time-series model training.",
-            "The missing-date revenue is treated as random and the forecast is scaled to account for it.",
-            "The model captures weekday/weekend demand differences but does not use promotions, store hours, weather, or customer footfall."
+            "The seasonal pattern from 2023 (Jan-Oct) is assumed to repeat in 2024.",
+            "The model captures monthly seasonality but does not use promotions, store hours, weather, or customer footfall."
         ],
         "limitations": [
             "The forecast is a planning baseline, not a guaranteed result.",
