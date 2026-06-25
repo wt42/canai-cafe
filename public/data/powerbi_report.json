@@ -1,0 +1,9 @@
+{
+  "title": "Power BI Dashboard",
+  "status": "Optional integration point",
+  "notes": [
+    "Use this page to add your published Power BI report link or dashboard screenshots.",
+    "For demo safety, keep screenshots as backup if live embedding is not ready."
+  ],
+  "reportUrl": ""
+}
