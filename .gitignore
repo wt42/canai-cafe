@@ -1,2 +1,36 @@
-.venv
-__pycache__
+# Python cache
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environments
+.venv/
+venv/
+env/
+ENV/
+
+# OS / editor files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Logs
+*.log
+
+# Environment variables / secrets
+.env
+.env.*
+
+# Build artifacts
+dist/
+build/
+*.egg-info/
+
+# Keep hackathon data files in repo intentionally
+# data/raw/CanAI Cafe 2023 Sales Information.xlsx
+# data/processed/clean_output.csv
+# data/processed/cleaning_summary.csv

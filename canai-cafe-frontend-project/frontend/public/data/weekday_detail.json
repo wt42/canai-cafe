@@ -1,0 +1,44 @@
+[
+  {
+    "name": "Monday",
+    "avgDailyRevenue": 289.89,
+    "days": 52,
+    "totalRevenue": 15074.5
+  },
+  {
+    "name": "Tuesday",
+    "avgDailyRevenue": 291.36,
+    "days": 52,
+    "totalRevenue": 15150.5
+  },
+  {
+    "name": "Wednesday",
+    "avgDailyRevenue": 279.54,
+    "days": 52,
+    "totalRevenue": 14536.0
+  },
+  {
+    "name": "Thursday",
+    "avgDailyRevenue": 279.87,
+    "days": 52,
+    "totalRevenue": 14553.0
+  },
+  {
+    "name": "Friday",
+    "avgDailyRevenue": 291.21,
+    "days": 52,
+    "totalRevenue": 15143.0
+  },
+  {
+    "name": "Saturday",
+    "avgDailyRevenue": 92.13,
+    "days": 52,
+    "totalRevenue": 4791.0
+  },
+  {
+    "name": "Sunday",
+    "avgDailyRevenue": 95.83,
+    "days": 53,
+    "totalRevenue": 5079.0
+  }
+]

@@ -1,0 +1,16 @@
+metric,value
+Original rows,10000.0
+Cleaned rows,10000.0
+Rejected rows,0.0
+Rows with missing/invalid transaction date,240.0
+Rows with missing item inferred from price,100.0
+Rows with quantity repaired,98.0
+Rows with total_spent repaired,0.0
+Rows with price_per_unit repaired,0.0
+Rows with Unknown Payment,555.0
+Rows with Unknown Location,878.0
+Rows with Unknown Province,417.0
+Duplicate Transaction ID rows flagged,88.0
+Revenue mismatch rows,0.0
+Item/price mismatch rows,0.0
+Total revenue in cleaned data,86288.0
