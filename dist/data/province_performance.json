@@ -1,0 +1,42 @@
+[
+  {
+    "name": "British Columbia",
+    "revenue": 28407.0,
+    "transactions": 3288,
+    "units": 6582,
+    "revenueShare": 34.3,
+    "averageTransactionValue": 8.64
+  },
+  {
+    "name": "Newfoundland and Labrador",
+    "revenue": 20803.5,
+    "transactions": 2387,
+    "units": 4744,
+    "revenueShare": 25.12,
+    "averageTransactionValue": 8.72
+  },
+  {
+    "name": "Saskatchewan",
+    "revenue": 17241.0,
+    "transactions": 1979,
+    "units": 3916,
+    "revenueShare": 20.82,
+    "averageTransactionValue": 8.71
+  },
+  {
+    "name": "Manitoba",
+    "revenue": 16187.5,
+    "transactions": 1909,
+    "units": 3769,
+    "revenueShare": 19.55,
+    "averageTransactionValue": 8.48
+  },
+  {
+    "name": "Ontario",
+    "revenue": 178.5,
+    "transactions": 20,
+    "units": 36,
+    "revenueShare": 0.22,
+    "averageTransactionValue": 8.93
+  }
+]

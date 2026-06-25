@@ -1,0 +1,138 @@
+{
+  "score": 94.77,
+  "summaryCards": [
+    {
+      "label": "Original Rows",
+      "value": 10000,
+      "note": "Raw transactions received"
+    },
+    {
+      "label": "Cleaned Rows",
+      "value": 10000,
+      "note": "Rows retained after safe cleaning"
+    },
+    {
+      "label": "Rejected Rows",
+      "value": 0,
+      "note": "No recoverable row was dropped"
+    },
+    {
+      "label": "Quantity Repaired",
+      "value": 98,
+      "note": "Calculated from Total Spent / Price Per Unit"
+    },
+    {
+      "label": "Item Inferred",
+      "value": 100,
+      "note": "Recovered from Price Per Unit"
+    },
+    {
+      "label": "Unknown Payments",
+      "value": 555,
+      "note": "Preserved transparently"
+    },
+    {
+      "label": "Unknown Locations",
+      "value": 878,
+      "note": "Preserved transparently"
+    },
+    {
+      "label": "Unknown Provinces",
+      "value": 417,
+      "note": "Preserved transparently"
+    },
+    {
+      "label": "Duplicate IDs Flagged",
+      "value": 88,
+      "note": "Flagged but not dropped"
+    },
+    {
+      "label": "Missing Dates",
+      "value": 240,
+      "note": "Excluded from time-series only"
+    }
+  ],
+  "issueBreakdown": [
+    {
+      "name": "Missing Dates",
+      "count": 240
+    },
+    {
+      "name": "Unknown Payments",
+      "count": 555
+    },
+    {
+      "name": "Unknown Locations",
+      "count": 878
+    },
+    {
+      "name": "Unknown Provinces",
+      "count": 417
+    },
+    {
+      "name": "Quantity Repaired",
+      "count": 98
+    },
+    {
+      "name": "Item Inferred",
+      "count": 100
+    },
+    {
+      "name": "Duplicate IDs",
+      "count": 88
+    }
+  ],
+  "categoryCleanup": [
+    {
+      "category": "Product Names",
+      "before": "21 variants with typos",
+      "after": "8 standardized items",
+      "decision": "Fuzzy matched and normalized spelling"
+    },
+    {
+      "category": "Provinces",
+      "before": "38 variants with typos",
+      "after": "5 standardized provinces",
+      "decision": "Mapped all known abbreviations and misspellings"
+    },
+    {
+      "category": "Payment Methods",
+      "before": "Mixed casing and blanks",
+      "after": "3 methods + Unknown",
+      "decision": "Standardized casing, blanks marked Unknown"
+    },
+    {
+      "category": "Locations",
+      "before": "Mixed casing and blanks",
+      "after": "2 locations + Unknown",
+      "decision": "Standardized casing, blanks marked Unknown"
+    }
+  ],
+  "cleaningDecisions": [
+    {
+      "issue": "Missing transaction dates",
+      "decision": "Keep rows, exclude from time-series",
+      "reason": "Revenue is still valid for total KPIs even without a date"
+    },
+    {
+      "issue": "Missing quantity",
+      "decision": "Recover mathematically (Total Spent / Price Per Unit)",
+      "reason": "Avoids data loss when the calculation is deterministic"
+    },
+    {
+      "issue": "Missing item name",
+      "decision": "Infer from Price Per Unit lookup",
+      "reason": "Each product has a unique price, so inference is reliable"
+    },
+    {
+      "issue": "Duplicate transaction IDs",
+      "decision": "Flag but do not remove",
+      "reason": "Cannot confirm if duplicates are errors or legitimate repeat purchases"
+    },
+    {
+      "issue": "Unknown payment/location/province",
+      "decision": "Preserve transparently with Unknown label",
+      "reason": "Dropping rows would lose revenue data; labeling keeps analysis honest"
+    }
+  ]
+}

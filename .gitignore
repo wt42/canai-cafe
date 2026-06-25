@@ -29,7 +29,7 @@ data/processed/
 .env.*
 
 # Build artifacts
-dist/
+# dist/
 build/
 *.egg-info/
 
