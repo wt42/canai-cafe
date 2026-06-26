@@ -34,7 +34,7 @@ export default function SalesPerformance() {
         <InsightCard title="Highest Revenue Month" variant="highlight">
           {bestMonth.month} generated {formatCurrency(bestMonth.revenue)} in revenue.
         </InsightCard>
-        <InsightCard title="Highest Revenue Month">
+        <InsightCard title="Lowest Revenue Month">
           {weakestMonth.month} generated {formatCurrency(weakestMonth.revenue)} in revenue.
         </InsightCard>
         <InsightCard title="Analysis Constraints">
