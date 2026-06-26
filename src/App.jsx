@@ -1,5 +1,6 @@
 import { Navigate, Route, Routes } from 'react-router-dom';
 import AppLayout from './components/layout/AppLayout.jsx';
+import ChatWidget from './components/chat/ChatWidget.jsx';
 import ExecutiveOverview from './pages/ExecutiveOverview.jsx';
 import DataQuality from './pages/DataQuality.jsx';
 import SalesPerformance from './pages/SalesPerformance.jsx';
@@ -25,6 +26,7 @@ export default function App() {
         <Route path="/methodology" element={<Methodology />} />
         <Route path="/powerbi" element={<PowerBIReport />} />
       </Routes>
+      <ChatWidget />
     </AppLayout>
   );
 }

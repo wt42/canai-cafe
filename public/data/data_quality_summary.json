@@ -2,14 +2,9 @@
   "score": 94.77,
   "summaryCards": [
     {
-      "label": "Original Rows",
+      "label": "Records Processed",
       "value": 10000,
-      "note": "Raw transactions received"
-    },
-    {
-      "label": "Cleaned Rows",
-      "value": 10000,
-      "note": "Rows retained after safe cleaning"
+      "note": "All transactions retained after cleaning"
     },
     {
       "label": "Rejected Rows",

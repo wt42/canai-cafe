@@ -44,7 +44,7 @@ export default function ProductIntelligence() {
 
       <div className="grid two-columns">
         <BarChartPanel title="Revenue by Product" subtitle="Highest revenue products after item cleanup" data={products} />
-        <BarChartPanel title="Transactions by Product" subtitle="Product volume, not just revenue" data={products} yKey="transactions" />
+        <BarChartPanel title="Transactions by Product" subtitle="Product volume, not just revenue" data={products} yKey="transactions" yFormatter={(value) => value}/>
       </div>
 
       <section className="table-card">
@@ -54,8 +54,8 @@ export default function ProductIntelligence() {
             <tr>
               <th>Product</th>
               <th>Revenue</th>
-              <th>Transactions</th>
               <th>Units</th>
+              <th>Transactions</th>
               <th>Revenue Share</th>
             </tr>
           </thead>
@@ -64,8 +64,8 @@ export default function ProductIntelligence() {
               <tr key={product.name}>
                 <td>{product.name}</td>
                 <td>{formatCurrency(product.revenue)}</td>
-                <td>{formatNumber(product.transactions)}</td>
                 <td>{formatNumber(product.units)}</td>
+                <td>{formatNumber(product.transactions)}</td>                
                 <td>{formatPercent(product.revenueShare)}</td>
               </tr>
             ))}
