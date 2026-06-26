@@ -2,8 +2,8 @@ import { NavLink } from 'react-router-dom';
 
 const links = [
   { to: '/overview', label: 'Executive Overview', icon: '📊' },
-  { to: '/data-quality', label: 'Data Quality', icon: '🧹' },
   { to: '/sales', label: 'Sales Performance', icon: '📈' },
+  { to: '/data-quality', label: 'Data Quality', icon: '🧹' },
   { to: '/products', label: 'Products', icon: '☕' },
   { to: '/regions', label: 'Regions', icon: '🗺️' },
   { to: '/forecast', label: 'Forecast', icon: '🔮' },
@@ -32,10 +32,7 @@ export default function Sidebar() {
         ))}
       </nav>
 
-      <div className="sidebar-note">
-        <strong>Demo Story</strong>
-        <span>Problem → Cleaning → Insight → Forecast → Action</span>
-      </div>
+      
     </aside>
   );
 }

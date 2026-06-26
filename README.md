@@ -104,7 +104,10 @@ python scripts/dataset_profiler.py
 | `data/processed/cleaning_summary.csv` | Cleaning metrics and audit summary |
 | `data/processed/profile_report.txt` | Raw and cleaned data profile report |
 | `data/processed/rejected_rows.csv` | Rows rejected after numeric validation, if any |
+<<<<<<< HEAD
 | `canai-cafe-frontend-project/frontend/public/data/forecast_sales.json` | Static 180-day forecast payload for the React dashboard |
+=======
+>>>>>>> origin/feature/setup-frontend-dashboard
 
 ---
 
@@ -244,6 +247,7 @@ Reason: duplicate IDs may not be exact duplicate rows. Deleting them blindly can
 
 ---
 
+<<<<<<< HEAD
 ## Forecasting Methodology
 
 The sales forecast is built ahead of time in Python and saved as static JSON:
@@ -351,6 +355,8 @@ expected direction, scale, and mix, but not a guarantee of future sales.
 
 ---
 
+=======
+>>>>>>> origin/feature/setup-frontend-dashboard
 ## Key Cleaning Results From Current Dataset
 
 | Metric | Value |

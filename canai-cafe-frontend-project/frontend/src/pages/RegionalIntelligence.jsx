@@ -27,7 +27,7 @@ export default function RegionalIntelligence() {
       <PageHeader
         eyebrow="Regional Intelligence"
         title="Province-level performance"
-        description="Regional analysis uses cleaned province names while keeping Unknown Province visible for transparency."
+        description="Regional analysis uses cleaned province names."
       />
 
       <div className="grid three-columns">
@@ -44,7 +44,7 @@ export default function RegionalIntelligence() {
 
       <BarChartPanel title="Revenue by Province" subtitle="Cleaned regional performance" data={provinces} />
 
-      <section className="table-card">
+      <section className="table-card" style={{ marginTop: '30px' }}>
         <h3>Province Ranking</h3>
         <table>
           <thead>

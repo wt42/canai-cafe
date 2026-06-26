@@ -104,7 +104,10 @@ iframe { width: 100%; height: 720px; border: 1px solid var(--border); border-rad
   .topbar { position: relative; align-items: flex-start; flex-direction: column; padding: 22px; }
   .page-container { padding: 24px 18px 40px; }
   .kpi-grid, .small-grid, .three-columns, .decision-grid, .recommendation-grid, .method-grid { grid-template-columns: 1fr; }
+<<<<<<< HEAD
   .forecast-toolbar { align-items: stretch; flex-direction: column; }
   .segmented-control { width: 100%; }
   .segment-button { flex: 1; }
+=======
+>>>>>>> origin/feature/setup-frontend-dashboard
 }

@@ -10,6 +10,7 @@ import ForecastChart from '../components/charts/ForecastChart.jsx';
 import { getManyJson } from '../services/dataService.js';
 import { formatCurrency } from '../utils/formatCurrency.js';
 import { formatNumber, formatPercent } from '../utils/formatNumber.js';
+import PieChartPanel from '../components/charts/RevenuePieChart.jsx';
 
 export default function ExecutiveOverview() {
   const [data, setData] = useState(null);
@@ -34,7 +35,6 @@ export default function ExecutiveOverview() {
       <PageHeader
         eyebrow="Executive Overview"
         title="CanAI Café sales intelligence in one place"
-        description="A frontend reporting portal that turns cleaned transaction data into clear business decisions."
       />
 
       <section className="kpi-grid">
@@ -44,24 +44,19 @@ export default function ExecutiveOverview() {
         <KpiCard label="Average Ticket" value={formatCurrency(kpi.averageTransactionValue)} note="Revenue per transaction" />
         <KpiCard label="Top Product" value={kpi.topProduct} note="Highest revenue product" />
         <KpiCard label="Top Province" value={kpi.topProvince} note="Highest revenue province" />
-        <KpiCard label="6-Month Forecast" value={formatCurrency(forecast.summaryMetrics.full180Days.expectedRevenue)} note="Jan 1-Jun 28, 2024" />
+        <KpiCard label="6-Month Forecast" value={formatCurrency(kpi.sixMonthForecast)} note="Jan-Jun 2024 baseline" />
         <KpiCard label="Data Quality Score" value={formatPercent(kpi.dataQualityScore)} note="Rows without quality flags" />
       </section>
 
       <div className="grid two-columns">
         <MonthlySalesChart data={data['monthly_sales.json']} />
-        <ForecastChart
-          data={forecast.monthlyForecast}
-          title="6-Month Forecast"
-          subtitle="Monthly aggregation of the offline daily revenue forecast"
-        />
+        <PieChartPanel title="Top Product Revenue" subtitle="Revenue leaders after item cleanup" data={products}  xKey = 'name' yKey = 'revenue'/>
       </div>
 
       <div className="grid two-columns">
-        <BarChartPanel title="Top Product Revenue" subtitle="Revenue leaders after item cleanup" data={products} />
         <BarChartPanel title="Top Province Revenue" subtitle="Regional performance after province cleanup" data={provinces} />
+        <ForecastChart data={forecast.monthlyForecast} />
       </div>
-
       <div className="grid three-columns">
         <InsightCard title="Core finding" variant="highlight">
           Coffee drives transaction volume, while Sandwich drives the highest revenue. This creates a strong bundle opportunity.
@@ -73,6 +68,7 @@ export default function ExecutiveOverview() {
           Management should focus on bundles, weekend demand improvement, high-value product availability, and cleaner data capture.
         </InsightCard>
       </div>
+      
     </>
   );
 }

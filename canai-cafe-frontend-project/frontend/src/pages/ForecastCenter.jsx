@@ -109,6 +109,7 @@ export default function ForecastCenter() {
     <>
       <PageHeader
         eyebrow="Forecast Center"
+<<<<<<< HEAD
         title="Sales forecast"
         description="A planning forecast generated from cleaned 2023 transactions."
       />
@@ -174,6 +175,58 @@ export default function ForecastCenter() {
       <div className="grid">
         <InsightCard title="Model" variant="highlight">
           This forecast looks at 2023 daily sales patterns, especially weekday behavior and recent sales levels, then projects revenue for the next 180 days. It was back-tested on late-2023 holdout periods, where the typical daily miss was {formatCurrency(forecast.validation.mae)}. The model output is generated ahead of time and loaded here as static JSON.
+=======
+        title="Six-month sales forecast"
+        description="A baseline planning forecast for January to June 2024 using cleaned 2023 transaction data."
+      />
+
+      <section className="kpi-grid small-grid">
+        <KpiCard label="Model" value={forecast.modelName} note="Explainable and hackathon-safe" />
+        <KpiCard label="Forecast Period" value={forecast.forecastPeriod} note="Next six months" />
+        <KpiCard label="Total Forecast" value={formatCurrency(forecast.totalForecastRevenue)} note="Baseline planning view" />
+        <KpiCard label="Daily MAE" value={forecast.validation.mae} note="Validation metric" />
+        <KpiCard label="Daily RMSE" value={forecast.validation.rmse} note="Validation metric" />
+      </section>
+
+      <ForecastChart data={forecast.monthlyForecast} />
+
+      <section className="table-card">
+        <h3>Forecast Table</h3>
+        <table>
+          <thead>
+            <tr>
+              <th>Month</th>
+              <th>Forecast Revenue</th>
+              <th>Lower Estimate</th>
+              <th>Upper Estimate</th>
+              <th>Planning Note</th>
+            </tr>
+          </thead>
+          <tbody>
+            {forecast.monthlyForecast.map((row) => (
+              <tr key={row.month}>
+                <td>{row.month}</td>
+                <td>{formatCurrency(row.forecastRevenue)}</td>
+                <td>{formatCurrency(row.lowerEstimate)}</td>
+                <td>{formatCurrency(row.upperEstimate)}</td>
+                <td>{row.planningNote}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </section>
+
+      <div className="grid two-columns">
+        <InsightCard title="Assumptions" variant="highlight">
+          <ul>
+            {forecast.assumptions.map((item) => <li key={item}>{item}</li>)}
+          </ul>
+        </InsightCard>
+        <InsightCard title="Limitations">
+          <ul>
+            {forecast.limitations.map((item) => <li key={item}>{item}</li>)}
+          </ul>
+>>>>>>> origin/feature/setup-frontend-dashboard
         </InsightCard>
       </div>
     </>

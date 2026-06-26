@@ -7,10 +7,15 @@ import InsightCard from '../components/cards/InsightCard.jsx';
 import DataQualityChart from '../components/charts/DataQualityChart.jsx';
 import { getJson } from '../services/dataService.js';
 import { formatNumber, formatPercent } from '../utils/formatNumber.js';
-
+import QualityScoreChart from '../components/charts/QualityScoreChart.jsx';
 export default function DataQuality() {
   const [quality, setQuality] = useState(null);
   const [error, setError] = useState(null);
+  
+  const hiddenCards = [
+    'Rejected Rows',
+    'RCRADS'  
+  ];
 
   useEffect(() => {
     getJson('data_quality_summary.json').then(setQuality).catch(setError);
@@ -28,16 +33,14 @@ export default function DataQuality() {
       />
 
       <section className="kpi-grid">
-        {quality.summaryCards.map((card) => (
+        {quality.summaryCards.filter(card => !hiddenCards.includes(card.label)).map((card) => (
           <KpiCard key={card.label} label={card.label} value={formatNumber(card.value)} note={card.note} />
         ))}
       </section>
 
-      <div className="grid two-columns">
+      <div className="grid two-columns" style={{ columnGap: '24px', marginTop: '32px' }}>
         <DataQualityChart data={quality.issueBreakdown} />
-        <InsightCard title={`Quality score: ${formatPercent(quality.score)}`} variant="highlight">
-          The score represents rows without quality flags. Flagged rows are still usable when handled honestly, especially when values are repaired or labeled as unknown.
-        </InsightCard>
+        <QualityScoreChart   score={quality.score} retainedRows={10000} rejectedRows={0} repaired={98 + 100}/>
       </div>
 
       <section className="table-card">
@@ -64,13 +67,30 @@ export default function DataQuality() {
         </table>
       </section>
 
-      <section className="decision-grid">
-        {quality.cleaningDecisions.map((decision) => (
-          <InsightCard key={decision.issue} title={decision.issue}>
-            <strong>Decision:</strong> {decision.decision}
-            <br />
-            <strong>Reason:</strong> {decision.reason}
-          </InsightCard>
+      <section
+        className="decision-grid"
+        style={{
+          display: 'grid',
+          gridTemplateColumns: 'repeat(2, 1fr)',
+          gap: '24px',
+          marginTop: '32px',
+        }}
+      >
+        {quality.cleaningDecisions.map((decision, index) => (
+          <div
+            key={decision.issue}
+            style={
+              index === quality.cleaningDecisions.length - 1
+                ? { gridColumn: '1 / -1' }
+                : {}
+            }
+          >
+            <InsightCard title={decision.issue}>
+              <strong>Decision:</strong> {decision.decision}
+              <br />
+              <strong>Reason:</strong> {decision.reason}
+            </InsightCard>
+          </div>
         ))}
       </section>
     </>
