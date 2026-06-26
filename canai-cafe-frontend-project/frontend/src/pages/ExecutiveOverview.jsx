@@ -10,6 +10,7 @@ import ForecastChart from '../components/charts/ForecastChart.jsx';
 import { getManyJson } from '../services/dataService.js';
 import { formatCurrency } from '../utils/formatCurrency.js';
 import { formatNumber, formatPercent } from '../utils/formatNumber.js';
+import PieChartPanel from '../components/charts/RevenuePieChart.jsx';
 
 export default function ExecutiveOverview() {
   const [data, setData] = useState(null);
@@ -34,7 +35,6 @@ export default function ExecutiveOverview() {
       <PageHeader
         eyebrow="Executive Overview"
         title="CanAI Café sales intelligence in one place"
-        description="A frontend reporting portal that turns cleaned transaction data into clear business decisions."
       />
 
       <section className="kpi-grid">
@@ -50,14 +50,13 @@ export default function ExecutiveOverview() {
 
       <div className="grid two-columns">
         <MonthlySalesChart data={data['monthly_sales.json']} />
-        <ForecastChart data={forecast.monthlyForecast} />
+        <PieChartPanel title="Top Product Revenue" subtitle="Revenue leaders after item cleanup" data={products}  xKey = 'name' yKey = 'revenue'/>
       </div>
 
       <div className="grid two-columns">
-        <BarChartPanel title="Top Product Revenue" subtitle="Revenue leaders after item cleanup" data={products} />
         <BarChartPanel title="Top Province Revenue" subtitle="Regional performance after province cleanup" data={provinces} />
+        <ForecastChart data={forecast.monthlyForecast} />
       </div>
-
       <div className="grid three-columns">
         <InsightCard title="Core finding" variant="highlight">
           Coffee drives transaction volume, while Sandwich drives the highest revenue. This creates a strong bundle opportunity.
@@ -69,6 +68,7 @@ export default function ExecutiveOverview() {
           Management should focus on bundles, weekend demand improvement, high-value product availability, and cleaner data capture.
         </InsightCard>
       </div>
+      
     </>
   );
 }
