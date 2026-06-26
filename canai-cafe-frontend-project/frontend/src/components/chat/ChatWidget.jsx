@@ -32,6 +32,12 @@ const QA = [
       { q: 'What AI features are planned?', a: 'We plan to integrate a trained AI model that provides real-time conversational analytics, predictive forecasting with ML, anomaly detection for unusual sales patterns, and natural language querying of the dataset.' },
       { q: 'What\'s on the roadmap?', a: 'Next steps include: live data streaming from POS systems, Power BI embedded reports, customer segmentation with clustering, and a mobile companion app for managers on the go.' },
     ]
+  },
+  {
+    category: '😄 Fun',
+    items: [
+      { q: 'What do CanAI people do after Friday?', a: 'They espresso themselves all weekend! ☕ But honestly, our data shows weekend transactions have a higher average spend — so even the team can\'t resist treating themselves to an extra latte on Saturday.' },
+    ]
   }
 ];
 
