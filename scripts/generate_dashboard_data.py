@@ -15,11 +15,8 @@ import pandas as pd
 import numpy as np
 from pathlib import Path
 
-<<<<<<< HEAD
 from forecasting import generate_legacy_six_month_forecast, generate_sales_forecast
 
-=======
->>>>>>> origin/feature/setup-frontend-dashboard
 
 # Paths
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
@@ -32,11 +29,7 @@ def load_data():
     return df
 
 
-<<<<<<< HEAD
 def generate_kpi_summary(df, forecast=None):
-=======
-def generate_kpi_summary(df):
->>>>>>> origin/feature/setup-frontend-dashboard
     """Top-level numbers the dashboard shows at the top (total revenue, transactions, etc.)"""
     total_revenue = round(df["total_spent"].sum(), 2)
     total_transactions = len(df)
@@ -48,7 +41,6 @@ def generate_kpi_summary(df):
     valid_dated = total_transactions - missing_dates
     data_quality_score = round((1 - missing_dates / total_transactions) * 100, 2)
 
-<<<<<<< HEAD
     if forecast:
         six_month_forecast = forecast["summaryMetrics"]["full180Days"]["expectedRevenue"]
     else:
@@ -56,13 +48,6 @@ def generate_kpi_summary(df):
         monthly_rev = dated_df.groupby(dated_df["transaction_date"].dt.to_period("M"))["total_spent"].sum()
         avg_monthly = monthly_rev.mean()
         six_month_forecast = round(avg_monthly * 6, 2)
-=======
-    # Simple 6-month forecast based on monthly average
-    dated_df = df[df["transaction_date"].notna()]
-    monthly_rev = dated_df.groupby(dated_df["transaction_date"].dt.to_period("M"))["total_spent"].sum()
-    avg_monthly = monthly_rev.mean()
-    six_month_forecast = round(avg_monthly * 6, 2)
->>>>>>> origin/feature/setup-frontend-dashboard
 
     return {
         "totalRevenue": total_revenue,
@@ -416,16 +401,11 @@ def generate_methodology():
             {
                 "title": "Forecast Method",
                 "points": [
-<<<<<<< HEAD
                     "An offline daily revenue forecast is generated from the cleaned transaction data and saved as static JSON for React.",
                     "Candidate baselines are compared across rolling 30-day holdout windows, then the best explainable weekday/recent-level model is selected.",
                     "The dashboard shows daily validation error in the daily view and 30-day aggregate validation error in the monthly view.",
                     "Annual seasonality is not strongly inferred because only one complete year of data is available.",
                     "Province forecast charts exclude Unknown Province and do not reallocate that revenue to known provinces."
-=======
-                    "A weekday-adjusted baseline forecast was selected because only one year of history was available and the weekday/weekend pattern was strong.",
-                    "Validation used Jan-Oct as training and Nov-Dec as holdout months."
->>>>>>> origin/feature/setup-frontend-dashboard
                 ]
             },
             {
@@ -475,14 +455,9 @@ def main():
 
     os.makedirs(OUTPUT_DIR, exist_ok=True)
     df = load_data()
-<<<<<<< HEAD
     forecast = generate_sales_forecast(df)
 
     save_json(generate_kpi_summary(df, forecast), "kpi_summary.json")
-=======
-
-    save_json(generate_kpi_summary(df), "kpi_summary.json")
->>>>>>> origin/feature/setup-frontend-dashboard
     save_json(generate_monthly_sales(df), "monthly_sales.json")
     save_json(generate_product_performance(df), "product_performance.json")
     save_json(generate_province_performance(df), "province_performance.json")
@@ -490,22 +465,14 @@ def main():
     save_json(generate_location_performance(df), "location_performance.json")
     save_json(generate_weekday_weekend(df), "weekday_weekend.json")
     save_json(generate_weekday_detail(df), "weekday_detail.json")
-<<<<<<< HEAD
     save_json(forecast, "forecast_sales.json")
     save_json(generate_legacy_six_month_forecast(forecast), "forecast_6_months.json")
-=======
-    save_json(generate_forecast(df), "forecast_6_months.json")
->>>>>>> origin/feature/setup-frontend-dashboard
     save_json(generate_data_quality_summary(df), "data_quality_summary.json")
     save_json(generate_recommendations(df), "recommendations.json")
     save_json(generate_methodology(), "methodology.json")
     save_json(generate_powerbi_report(), "powerbi_report.json")
 
-<<<<<<< HEAD
     print(f"\nDone! 14 JSON files generated for the dashboard.")
-=======
-    print(f"\nDone! 13 JSON files generated for the dashboard.")
->>>>>>> origin/feature/setup-frontend-dashboard
 
 
 if __name__ == "__main__":
